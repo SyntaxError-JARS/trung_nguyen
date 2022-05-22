@@ -76,9 +76,9 @@ public class FinancialDAO implements CRUD<Financials> {
         try(Connection conn = DBConnection.getInstance().getConnection()) {
             String sql = "update financials set checkings_balance=?, savings_balance=? where user_name=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, updatedObj.getUserName());
-            preparedStatement.setString(2, updatedObj.getChecking());
-            preparedStatement.setString(3, updatedObj.getSavings());
+            preparedStatement.setString(1, updatedObj.getChecking());
+            preparedStatement.setString(2, updatedObj.getSavings());
+            preparedStatement.setString(3, updatedObj.getUserName());
 
 
             int check = preparedStatement.executeUpdate();
@@ -98,6 +98,28 @@ public class FinancialDAO implements CRUD<Financials> {
     @Override
     public boolean delete(String id) {
         System.out.println("FinancialDAO has made bank");
+
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+
+            String sql = "delete from financials where user_name = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+
+            int check = preparedStatement.executeUpdate();
+            if (check == 0) {
+                throw new RuntimeException("Something went wrong with deleting Financial Information. Please scratch head and say hmm.");
+
+            } else {
+                System.out.println("Financial Records have been deleted.");
+            }
+            return true;
+
+        } catch (SQLException p) {
+
+            p.printStackTrace();
+
+        }
+
         return false;
     }
 }

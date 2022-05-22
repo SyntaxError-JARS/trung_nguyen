@@ -78,13 +78,6 @@ public class UserDAO implements CRUD<UserInformation> {
     public boolean update(UserInformation updatedObj) {
         System.out.println("Nice, you got this working");
 
-        /*
-        possible syntax for implementing Update function
-        update wouldn't require a preparedStatement, but using one prevents SQL injections
-        update is a one time use.  therefore, having multiple statements isn't needed.
-        can update multiple columns and rows in single statement
-        can a statement take user input to update? le google say . . . possible. */
-
         try(Connection conn = DBConnection.getInstance().getConnection()) {
             String sql = "update user_information set first_name=?, last_name=?, pass_word=?, email=? where user_name=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -98,6 +91,8 @@ public class UserDAO implements CRUD<UserInformation> {
             int check = preparedStatement.executeUpdate();
             if(check == 0){
                 throw new RuntimeException("Something went wrong with User Information Update. Oops");
+            } else {
+                System.out.println("Records updated");
             }
             return true;
             }catch(SQLException p) {
@@ -112,6 +107,29 @@ public class UserDAO implements CRUD<UserInformation> {
     @Override
     public boolean delete(String id) {
         System.out.println("Great, UserDAO did all its things.");
+
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+
+            String sql = "delete from user_information where user_name = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+
+            int check = preparedStatement.executeUpdate();
+            if (check == 0) {
+                throw new RuntimeException("Something went wrong with deleting User Information. Oops");
+
+            } else {
+                System.out.println("User Information deletion successful");
+            }
+            return true;
+
+        } catch (SQLException p) {
+
+            p.printStackTrace();
+
+        }
         return false;
     }
+
+
 }

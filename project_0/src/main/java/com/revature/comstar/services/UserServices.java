@@ -7,7 +7,13 @@ import java.util.List;
 
 public class UserServices {
 
-    UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO;
+
+    public UserServices(UserDAO userDao) {
+
+        this.userDAO = userDao;
+
+    }
 
     public UserInformation create(UserInformation newUser) {
 
@@ -27,7 +33,6 @@ public class UserServices {
     }
 
     public boolean delete(String id) {
-
         return userDAO.delete(id);
     }
 

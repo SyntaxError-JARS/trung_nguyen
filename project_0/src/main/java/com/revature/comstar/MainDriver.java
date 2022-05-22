@@ -1,5 +1,8 @@
 package com.revature.comstar;
 
+import com.revature.comstar.daos.FinancialDAO;
+import com.revature.comstar.daos.TransactionDAO;
+import com.revature.comstar.daos.UserDAO;
 import com.revature.comstar.models.Financials;
 import com.revature.comstar.models.Transactions;
 import com.revature.comstar.models.UserInformation;
@@ -14,7 +17,7 @@ public class MainDriver {
 
     public static void main(String[] args) {
 
-        UserServices userServices = new UserServices();
+        UserServices userServices = new UserServices(new UserDAO());
         UserInformation newUser = new UserInformation("John", "Smith", "JSmith", "password", "JSmith@mail.com");
         userServices.create(newUser);
 
@@ -25,13 +28,13 @@ public class MainDriver {
 
         }
 
-        UserInformation updatedUser = new UserInformation("Alice", "Smith", "ASmith", "password2", "AS@mail.com");
+        UserInformation updatedUser = new UserInformation("John", "Smith", "JSmith", "password2", "JS@mail.com");
         userServices.update(updatedUser);
 
         UserInformation userInfo = new UserInformation("John","Smith", "JSmith", "password3", "JSmith@mail.com");
-        userServices.delete(String.valueOf(userInfo));
+        userServices.delete("JSmith");
 
-        FinancialServices financialServices = new FinancialServices();
+        FinancialServices financialServices = new FinancialServices(new FinancialDAO());
         Financials userBalance = new Financials("JSmith", "$10,000", "$20,000");
         financialServices.create(userBalance);
 
@@ -41,13 +44,13 @@ public class MainDriver {
             System.out.println(fuser);
         }
 
-        Financials newBalance = new Financials("JSmith", "10,000", "placeholder");
+        Financials newBalance = new Financials("JSmith", "5,000", "$25,000");
         financialServices.update(newBalance);
 
         Financials userFinances = new Financials("JSmith", "where", "money?");
-        financialServices.delete(String.valueOf(userFinances));
+        financialServices.delete("JSmith");
 
-        TransactionServices transactionServices = new TransactionServices();
+        TransactionServices transactionServices = new TransactionServices(new TransactionDAO());
         Transactions newTransaction = new Transactions("05-20-3052", "$20,000", 1);
         transactionServices.create(newTransaction);
 
@@ -62,7 +65,7 @@ public class MainDriver {
         transactionServices.update(updatedTransaction);
 
         Transactions rmvTransactions = new Transactions("10-10-2010", "$60.00", 2);
-        transactionServices.delete(String.valueOf(rmvTransactions));
+        transactionServices.delete("1");
 
 
 

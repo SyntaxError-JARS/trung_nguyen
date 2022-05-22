@@ -7,7 +7,13 @@ import java.util.List;
 
 public class FinancialServices {
 
-    FinancialDAO financialDAO = new FinancialDAO();
+    private final FinancialDAO financialDAO;
+
+    public FinancialServices(FinancialDAO financialDAO) {
+
+        this.financialDAO = financialDAO;
+
+    }
 
     public Financials create(Financials userBalance) {
 

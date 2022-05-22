@@ -7,7 +7,13 @@ import java.util.List;
 
 public class TransactionServices {
 
-    TransactionDAO transactionDAO = new TransactionDAO();
+    private final TransactionDAO transactionDAO;
+
+    public TransactionServices(TransactionDAO transactionDAO) {
+
+        this.transactionDAO = transactionDAO;
+
+    }
 
     public Transactions create(Transactions newTransaction) {
 

@@ -98,6 +98,30 @@ public class TransactionDAO implements CRUD<Transactions> {
     @Override
     public boolean delete(String id) {
         System.out.println("Go home, the DAO is done");
+
+
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+
+            String sql = "delete from transaction_history where financials_id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, Integer.parseInt(id));
+
+            int check = preparedStatement.executeUpdate();
+            if (check == 0) {
+                throw new RuntimeException("Something went wrong with deleting Transaction Information. Panic");
+
+            } else {
+                System.out.println("Transactions scrubbed.");
+            }
+            return true;
+
+        } catch (SQLException p) {
+
+            p.printStackTrace();
+
+        }
+
+
         return false;
     }
 }

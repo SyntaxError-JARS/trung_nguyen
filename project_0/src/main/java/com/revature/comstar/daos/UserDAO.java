@@ -29,7 +29,7 @@ public class UserDAO implements CRUD<UserInformation> {
             if(check == 0){
                 throw new RuntimeException("Something went wrong with Create. Oops");
             }
-            return newUser;
+
 
 
         }catch (SQLException p){
@@ -37,7 +37,7 @@ public class UserDAO implements CRUD<UserInformation> {
             p.printStackTrace();
             return null;
         }
-
+        return newUser;
     }
 
     @Override

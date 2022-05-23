@@ -40,5 +40,34 @@ public class User_Servlet extends HttpServlet{
 
         }
 
+        @Override
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+            try {
+                UserInformation userInformation = mapper.readValue(req.getInputStream(), UserInformation.class);
+                UserInformation persistedUser = userServices.create(userInformation);
+
+                String payload = mapper.writeValueAsString(persistedUser);
+
+                resp.getWriter().write("The following user information has been added.\n");
+                resp.getWriter().write(payload);
+                resp.setStatus(201);
+            } catch(Exception e){
+                resp.getWriter().write("User has already been registered.");
+            }
+
+        }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        UserInformation reqUser = mapper.readValue(req.getInputStream(), UserInformation.class);
+
+            boolean updatedUser = userServices.update(reqUser);
+
+            String payload = mapper.writeValueAsString(updatedUser);
+            resp.getWriter().write(payload);
+            resp.getWriter().write("User has been updated.");
+            resp.setStatus(201);
+        }
 }

@@ -29,13 +29,11 @@ public class FinancialDAO implements CRUD<Financials> {
                 throw new RuntimeException("Something went wrong with Create. Oops");
             }
 
-            return newObject;
-
         }catch (SQLException p){
             p.printStackTrace();
             return null;
         }
-
+        return newObject;
     }
 
     @Override
